@@ -10,7 +10,7 @@ flatpak:
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 all:
-	apt install variety
+	apt install variety gopass dmenu
 	mkdir -p install/
 	[ -d install/vimix-gtk-themes ] || git clone https://github.com/vinceliuice/vimix-gtk-themes install/vimix-gtk-themes
 	install/vimix-gtk-themes/install.sh -t doder -c dark
