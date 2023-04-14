@@ -1,5 +1,21 @@
 .PHONY: snap flatpak all games messaging mail viewing productivity camera editing browser music clean
 
+all:
+	apt install variety dmenu
+	stow --dir="." --target="$(HOME)" variety/
+	stow --dir="." --target="$(HOME)" scripts/
+	stow --dir="." --target="$(HOME)" mint/
+	stow --dir="." --target="$(HOME)" cinnamon/
+	stow --dir="." --target="$(HOME)" gtk/
+# https://forums.linuxmint.com/viewtopic.php?t=159521
+	dconf load /org/cinnamon/ < ./cinnamon/.config/cinnamon-session/cinnamon.conf
+	mkdir -p install/
+	[ -d install/vimix-gtk-themes ] || git clone https://github.com/vinceliuice/vimix-gtk-themes install/vimix-gtk-themes
+	install/vimix-gtk-themes/install.sh -t doder -c dark
+	install/vimix-gtk-themes/install.sh -c dark -t amethyst
+	[ -d install/vimix-icon-themes ] || git clone https://github.com/vinceliuice/vimix-icon-theme install/vimix-icon-themes
+	install/vimix-icon-themes/install.sh -n doder
+
 snap:
 	rm -f /etc/apt/preferences.d/nosnap.pref
 	apt update
@@ -8,15 +24,6 @@ snap:
 flatpak:
 	apt install flatpak
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-all:
-	apt install variety dmenu
-	mkdir -p install/
-	[ -d install/vimix-gtk-themes ] || git clone https://github.com/vinceliuice/vimix-gtk-themes install/vimix-gtk-themes
-	install/vimix-gtk-themes/install.sh -t doder -c dark
-	install/vimix-gtk-themes/install.sh -c dark -t amethyst
-	[ -d install/vimix-icon-themes ] || git clone https://github.com/vinceliuice/vimix-icon-theme install/vimix-icon-themes
-	install/vimix-icon-themes/install.sh -n doder
 
 games: flatpak
 	mkdir -p install/
@@ -28,6 +35,7 @@ games: flatpak
 messaging: flatpak
 	flatpak install flathub com.discordapp.Discord
 	flatpak install flathub io.bit3.WhatsAppQT
+	stow --dir="." --target="$(HOME)" whatsapp/
 	flatpak install flathub com.slack.Slack
 	flatpak install flathub com.microsoft.Teams
 
