@@ -22,9 +22,6 @@ games: flatpak
 	mkdir -p install/
 	curl https://launcher.mojang.com/download/Minecraft.deb -o install/mc.deb
 	dpkg -i install/mc.deb
-	add-apt-repository ppa:lutris-team/lutris
-	apt update
-	apt install lutris
 	flatpak install flathub com.valvesoftware.Steam
 	flatpak install flathub io.mrarm.mcpelauncher
 
